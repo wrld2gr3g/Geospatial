@@ -1,9 +1,13 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      'three': 'three'
+    }
+  },
   define: {
     'process.env': {},
     'global': 'window'
@@ -14,11 +18,33 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     chunkSizeWarningLimit: 2000,
-    commonjsOptions: {
-      include: [/node_modules/]
+    rollupOptions: {
+      external: [] // Ensure three is bundled
+    }
+  }
+})
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      'three': 'three'
     }
   },
-  server: {
-    port: 3000
+  define: {
+    'process.env': {},
+    'global': 'window'
+  },
+  optimizeDeps: {
+    include: ['three', 'react-globe.gl']
+  },
+  build: {
+    outDir: 'dist',
+    chunkSizeWarningLimit: 2000,
+    rollupOptions: {
+      external: [] // Ensure three is bundled
+    }
   }
 })
